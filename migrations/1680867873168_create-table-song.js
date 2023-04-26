@@ -16,11 +16,11 @@ exports.up = pgm => {
         },
         genre: {
             type: 'VARCHAR(64)',
-            primaryKey: true,
+            notNull: true,
         },
         performer: {
             type: 'VARCHAR(1000)',
-            primaryKey: true,
+            notNull: true,
         },
         duration: {
             type: 'integer'
@@ -36,7 +36,9 @@ exports.up = pgm => {
             type: 'VARCHAR(100)',
             notNull: true,
         },
-    })
+    });
+
+    pgm.addConstraint('song', 'fk_song.album_id_album.id', 'FOREIGN KEY(album_id) REFERENCES album(id) ON DELETE CASCADE');
 };
 
 exports.down = pgm => {

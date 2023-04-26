@@ -9,12 +9,12 @@ class SongService {
     }
 
     async addSong({title, year, genre, performer, duration, albumId}) {
-        const id = nanoid(16);
+        const id = `song-${nanoid(16)}`;
         const timeNow = new Date().toISOString();
 
         const query = {
-            text: 'INSERT INTO song VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id',
-            values: [id, title, year, genre, performer, duration, albumId, timeNow, timeNow],
+            text: 'INSERT INTO song VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $8) RETURNING id',
+            values: [id, title, year, genre, performer, duration, albumId, timeNow],
         };
 
         const result = await this._pool.query(query);
@@ -84,7 +84,7 @@ class SongService {
 
         const result = await this._pool.query(query);
 
-        if (!result.rows.length) {
+        if (!result.rowCount) {
             throw new NotFoundError('Song gagal dihapus. Id tidak ditemukan');
         }
     }
